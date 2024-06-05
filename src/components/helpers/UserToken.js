@@ -1,0 +1,1 @@
+export const usertoken =  JSON.parse(JSON.stringify(localStorage.getItem('usertoken')));
