@@ -1,6 +1,7 @@
 import axios from "axios"
-import { BOOK_ERROR, BOOK_GENRE, GET_BOOK, GET_BOOKS } from "./types"
+import { BOOK_ERROR, BOOK_GENRE, BORROW_BOOKS, GET_BOOK, GET_BOOKS } from "./types"
 import { ApiUrl } from "../../helpers/ApiUrl"
+import { usertoken } from "../../helpers/UserToken"
 
 export function getBooks() {
 
@@ -65,4 +66,39 @@ export function bookByGenre(category) {
             throw error
         }
     }
+}
+
+
+
+export function booksBorrow(client, data) {
+
+
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.post(`${ApiUrl}/borrow/borrow_books/${client}`, data, {
+                headers: {
+                    Authorization: `Bearer ${usertoken}`
+                }
+
+            })
+
+            dispatch({type: BORROW_BOOKS})
+            alert(response.data.msg)
+
+            localStorage.removeItem('book')
+  
+              window.location.href = "/my_readings"
+          
+            
+        } catch (error) {
+            console.error(error)
+            dispatch({type: BOOK_ERROR})
+            throw error
+        }
+
+    }
+
+
 }

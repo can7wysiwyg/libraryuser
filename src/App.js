@@ -3,6 +3,7 @@ import NavigationComp from "./components/pages/nav/NavigationComp";
 import Login from "./components/pages/widgets/auth/Login";
 import Home from "./components/pages/widgets/Home";
 import ShowBook from "./components/pages/widgets/books/ShowBook";
+import BorrowBooks from "./components/pages/widgets/books/BorrowBooks";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/single_book/:id" element={<ShowBook />} />
+        <Route path="/borrow_books" element={<BorrowBooks />} />
         
 
       </Routes>
