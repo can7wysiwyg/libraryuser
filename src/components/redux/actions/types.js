@@ -1,5 +1,6 @@
 export const LOGIN_USER = 'LOGIN_USER'
 export const GET_USER = 'GET_USER'
+export const MY_BOOKS = 'MY_BOOKS'
 export const AUTH_ERROR = 'AUTH_ERROR'
 export const GET_BOOKS = 'GET_BOOKS'
 export const GET_BOOK = 'GET_BOOK'
