@@ -1,9 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector, useDispatch } from "react-redux";
 import moment from "moment/moment";
 import { useEffect, useState} from "react";
 import { getUser } from "../../../redux/actions/authAction";
-import { MyBooks } from "../../../redux/actions/userAction";
+import { MyBooks, deleteBookOne, deleteBookThree, deleteBookTwo } from "../../../redux/actions/userAction";
 import { getBooks } from "../../../redux/actions/bookAction";
+
 
 
 import {Viewer, Worker } from "@react-pdf-viewer/core"
@@ -14,7 +15,9 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'; // Impor
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
-// the workerSrc url in the displaybooks component should be changed per api version... 
+// the WORKERSRC url  should be changed per api version... 
+
+let WORKERSRC = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
 
 function MyReadings() {
 
@@ -108,6 +111,7 @@ if(result === undefined || result === null || result === "" || !books) {
 const DisplayFirstBook = ({ myBooks, books }) => {
     const [items, setItems] = useState({});
     const [pdfVisible, setPdfVisible] = useState(false);
+    const dispatch = useDispatch()
 
     // Create an instance of the plugin
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -119,11 +123,23 @@ const DisplayFirstBook = ({ myBooks, books }) => {
         }
     }, [books, myBooks.bookOne]);
 
+
+    
     const handleButtonClick = () => {
         setPdfVisible(!pdfVisible); // Toggle the visibility
     };
 
     const named = items.bookFile;
+
+
+    const DeleteBookOne = async(e) => {
+        e.preventDefault()
+
+        let id = myBooks._id
+
+        await dispatch(deleteBookOne(id))
+
+    }
 
     return (
         <>
@@ -142,7 +158,7 @@ const DisplayFirstBook = ({ myBooks, books }) => {
                                 {pdfVisible ? "Hide PDF" : "View PDF"}  {/* Button text changes based on pdfVisible */}
                             </button>
                             {pdfVisible && (
-                                <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js">
+                                <Worker workerUrl={WORKERSRC}>
                                     <div style={{ height: '750px' }}>
                                         <Viewer 
                                             fileUrl={named}
@@ -152,6 +168,11 @@ const DisplayFirstBook = ({ myBooks, books }) => {
                                 </Worker>
                             )}
                         </div>
+                        <h6 className="card-text text-primary"
+                         style={{ cursor: 'pointer' }} onClick={DeleteBookOne}> 
+                         Not satisified? return book
+                        
+                       </h6>
                     </div>
                 </div>
             </div>
@@ -164,6 +185,7 @@ const DisplayFirstBook = ({ myBooks, books }) => {
 const DisplaySecondBook = ({ myBooks, books }) => {
     const [items, setItems] = useState({});
     const [pdfVisible, setPdfVisible] = useState(false);
+    const dispatch = useDispatch()
 
     // Create an instance of the plugin
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -181,6 +203,17 @@ const DisplaySecondBook = ({ myBooks, books }) => {
 
     const named = items.bookFile;
 
+
+    const DeleteBookTwo = async(e) => {
+        e.preventDefault()
+
+        let id = myBooks._id
+
+        await dispatch(deleteBookTwo(id))
+
+    }
+
+
     return (
         <>
             <div className="row justify-content-center" style={{ marginTop: '2rem' }}>
@@ -198,7 +231,7 @@ const DisplaySecondBook = ({ myBooks, books }) => {
                                 {pdfVisible ? "Hide PDF" : "View PDF"}  {/* Button text changes based on pdfVisible */}
                             </button>
                             {pdfVisible && (
-                                <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js">
+                                <Worker workerUrl={WORKERSRC}>
                                     <div style={{ height: '750px' }}>
                                         <Viewer 
                                             fileUrl={named}
@@ -208,6 +241,12 @@ const DisplaySecondBook = ({ myBooks, books }) => {
                                 </Worker>
                             )}
                         </div>
+
+                        <h6 className="card-text text-primary"
+                         style={{ cursor: 'pointer' }} onClick={DeleteBookTwo}> 
+                         Not satisified? return book
+                        
+                       </h6>
                     </div>
                 </div>
             </div>
@@ -221,6 +260,7 @@ const DisplaySecondBook = ({ myBooks, books }) => {
 const DisplayThirdBook = ({ myBooks, books }) => {
     const [items, setItems] = useState({});
     const [pdfVisible, setPdfVisible] = useState(false);
+    const dispatch = useDispatch()
 
     // Create an instance of the plugin
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -238,6 +278,17 @@ const DisplayThirdBook = ({ myBooks, books }) => {
 
     const named = items.bookFile;
 
+
+    const DeleteBookThree = async(e) => {
+        e.preventDefault()
+
+        let id = myBooks._id
+
+        await dispatch(deleteBookThree(id))
+
+    }
+
+
     return (
         <>
             <div className="row justify-content-center" style={{ marginTop: '2rem' }}>
@@ -255,7 +306,7 @@ const DisplayThirdBook = ({ myBooks, books }) => {
                                 {pdfVisible ? "Hide PDF" : "View PDF"}  {/* Button text changes based on pdfVisible */}
                             </button>
                             {pdfVisible && (
-                                <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js">
+                                <Worker workerUrl={WORKERSRC}>
                                     <div style={{ height: '750px' }}>
                                         <Viewer 
                                             fileUrl={named}
@@ -265,6 +316,11 @@ const DisplayThirdBook = ({ myBooks, books }) => {
                                 </Worker>
                             )}
                         </div>
+                        <h6 className="card-text text-primary"
+                         style={{ cursor: 'pointer' }} onClick={DeleteBookThree}> 
+                         Not satisified? return book
+                        
+                       </h6>
                     </div>
                 </div>
             </div>

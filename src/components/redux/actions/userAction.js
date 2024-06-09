@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BOOK_ERROR, MY_BOOKS } from "./types"
+import { BOOK_ERROR, DELETE_BOOK, MY_BOOKS } from "./types"
 import { ApiUrl } from "../../helpers/ApiUrl"
 import { usertoken } from "../../helpers/UserToken"
 
@@ -17,6 +17,9 @@ export function MyBooks(client) {
 
             })
 
+
+            
+
             const result = response.data.result
 
             dispatch({type: MY_BOOKS, payload: result})
@@ -29,4 +32,170 @@ export function MyBooks(client) {
 
     }
 
+}
+
+
+
+export function deleteBookOne(id) {
+
+    return async function(dispatch) {
+
+        try {
+
+        
+
+        const resp = await axios.put(`${ApiUrl}/card/update_book_one/${id}`, {}, {
+
+            headers: {
+                Authorization: `Bearer ${usertoken}`
+            }
+
+            
+
+        })
+
+        
+           
+
+
+            const response =  await axios.delete(`${ApiUrl}/card/delete_book/${id}`,  {
+
+                headers: {
+                    Authorization: `Bearer ${usertoken}`
+                }
+
+            })
+
+            dispatch({type: DELETE_BOOK})
+
+            alert(resp.data.msg)
+
+            alert(response.data.msg)
+
+            window.location.reload()
+
+
+
+
+            
+        } catch (error) {
+
+            console.error(error)
+            dispatch({type: BOOK_ERROR})
+            throw error
+            
+        }
+
+
+    }
+}
+
+
+
+export function deleteBookTwo(id) {
+
+    return async function(dispatch) {
+
+        try {
+
+        
+
+        const resp = await axios.put(`${ApiUrl}/card/delete_book_two/${id}`, {}, {
+
+            headers: {
+                Authorization: `Bearer ${usertoken}`
+            }
+
+            
+
+        })
+
+        
+           
+
+
+            const response =  await axios.delete(`${ApiUrl}/card/delete_book/${id}`,  {
+
+                headers: {
+                    Authorization: `Bearer ${usertoken}`
+                }
+
+            })
+
+            dispatch({type: DELETE_BOOK})
+
+            alert(resp.data.msg)
+
+            alert(response.data.msg)
+
+            window.location.reload()
+
+
+
+
+            
+        } catch (error) {
+
+            console.error(error)
+            dispatch({type: BOOK_ERROR})
+            throw error
+            
+        }
+
+
+    }
+}
+
+export function deleteBookThree(id) {
+
+    return async function(dispatch) {
+
+        try {
+
+        
+
+        const resp = await axios.put(`${ApiUrl}/card/delete_book_three/${id}`, {}, {
+
+            headers: {
+                Authorization: `Bearer ${usertoken}`
+            }
+
+            
+
+        })
+
+        
+           
+
+
+            const response =  await axios.delete(`${ApiUrl}/card/delete_book/${id}`,  {
+
+                headers: {
+                    Authorization: `Bearer ${usertoken}`
+                }
+
+            })
+
+            dispatch({type: DELETE_BOOK})
+
+            alert(resp.data.msg)
+
+            alert(response.data.msg)
+
+            window.location.reload()
+
+
+
+
+            
+        } catch (error) {
+
+            console.error(error)
+            dispatch({type: BOOK_ERROR})
+            throw error
+            
+        }
+
+
+    }
 }
