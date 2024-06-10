@@ -1,9 +1,58 @@
+import { useDispatch, useSelector } from "react-redux"
 import { AuthComp } from "../../helpers/AuthComp"
 import { DashboardComp } from "../../helpers/DashboardComp"
+import { useEffect } from "react"
+import { getGenres } from "../../redux/actions/genreAction"
 
 
 
 function NavigationComp() {
+
+  const genres = useSelector((state) => state.genreRdcr.genres)
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+
+
+    const fetchGenres = async() => {
+
+      try {
+
+        await dispatch(getGenres())
+        
+      } catch (error) {
+        console.error("there was  a problem")
+      }
+
+
+    }
+
+
+    fetchGenres()
+
+
+  }, [dispatch])
+
+
+  if(!genres) {
+    return(<>
+    <h6 className="text-center">data is loading</h6>
+    
+    </>)
+  }
+
+
+  if(genres.length === 0) {
+
+    return(<>
+      <h6 className="text-center">data is loading</h6>
+      
+      </>)
+
+
+
+  }
 
     return(<>
 
@@ -32,6 +81,32 @@ function NavigationComp() {
 AuthComp()
 
 } </li>
+
+
+<div className="collapse navbar-collapse" id="navbarCollapse">
+    <div className="navbar-nav ms-auto p-4 p-lg-0">
+        <div className="nav-item dropdown">
+            <h5 className="nav-link dropdown-toggle" data-bs-toggle="dropdown">MORE BOOKS</h5>
+            <div className="dropdown-menu m-0">
+        
+        {
+          Array.isArray(genres)  ? genres?.map((genre) => (
+
+            <a key={genre._id} href={`/books_by_genre/${genre._id}`} className="dropdown-item">{genre.genreName}</a>
+
+
+
+          )) : "THERE WAS A PROBLEM "
+        }
+
+                {/* <a href="./issues" className="dropdown-item">ISSUES</a>
+                <a href="./initiatives" className="dropdown-item">INITIATIVES</a>
+                <a href="./influence" className="dropdown-item">MALAWI WOMEN OF INFLUENCE AWARD</a> */}
+            </div>
+        </div>
+    </div>
+</div>
+
             
             
             

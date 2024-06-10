@@ -1,5 +1,5 @@
 import axios from "axios"
-import {  GET_GENRE, SHOW_GENRES, GENRE_ERROR } from "./types"
+import {  GET_GENRE, SHOW_GENRES, GENRE_ERROR, LIMITED_GENRES } from "./types"
 import { ApiUrl } from "../../helpers/ApiUrl"
 
 
@@ -14,6 +14,30 @@ export function getGenres() {
             const genres = response.data.genres
 
             dispatch({type: SHOW_GENRES, payload: genres})
+            
+        } catch (error) {
+            console.error(error)
+            dispatch({type: GENRE_ERROR})
+            throw error
+        }
+
+
+    }
+
+}
+
+
+export function getGenresLimited() {
+
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.get(`${ApiUrl}/showgenre/show_limited`)
+
+            const genresLimited = response.data.genresLimited
+
+            dispatch({type: LIMITED_GENRES, payload: genresLimited})
             
         } catch (error) {
             console.error(error)

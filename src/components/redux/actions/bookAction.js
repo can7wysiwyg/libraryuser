@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BOOK_ERROR, BOOK_GENRE, BORROW_BOOKS, GET_BOOK, GET_BOOKS } from "./types"
+import { BOOK_ERROR, BOOK_GENRE, BORROW_BOOKS, GET_BOOK, GET_BOOKS, LIMITED_BOOKS } from "./types"
 import { ApiUrl } from "../../helpers/ApiUrl"
 import { usertoken } from "../../helpers/UserToken"
 
@@ -23,6 +23,29 @@ export function getBooks() {
         }
     }
 }
+
+
+export function getBooksLimited() {
+
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.get(`${ApiUrl}/books/show_all_limited`)
+
+            const booksLimited = response.data.booksLimited
+
+
+            dispatch({type: LIMITED_BOOKS, payload: booksLimited})
+            
+        } catch (error) {
+            console.error(error)
+            dispatch({type: BOOK_ERROR})
+            throw error
+        }
+    }
+}
+
 
 
 export function getBook(id) {

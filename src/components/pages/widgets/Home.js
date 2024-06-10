@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBooks } from "../../redux/actions/bookAction";
-import { getGenres } from "../../redux/actions/genreAction";
+import { getBooksLimited } from "../../redux/actions/bookAction";
+import { getGenresLimited } from "../../redux/actions/genreAction";
 
 function Home() {
-  const books = useSelector((state) => state.booksRdcr.books);
-  const genres = useSelector((state) => state.genreRdcr.genres);
+  const booksLimited = useSelector((state) => state.booksRdcr.booksLimited);
+  const genresLimited = useSelector((state) => state.genreRdcr.genresLimited);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        await dispatch(getBooks());
+        await dispatch(getBooksLimited());
 
-        await dispatch(getGenres());
+        await dispatch(getGenresLimited());
       } catch (error) {
         console.error("there was a problem");
       }
@@ -23,12 +23,12 @@ function Home() {
   }, [dispatch]);
 
   if (
-    !books ||
-    books === undefined ||
-    books === null ||
-    !genres ||
-    genres === undefined ||
-    genres === null
+    !booksLimited ||
+    booksLimited === undefined ||
+    booksLimited === null ||
+    !genresLimited ||
+    genresLimited === undefined ||
+    genresLimited === null
   ) {
     return (
       <>
@@ -39,7 +39,7 @@ function Home() {
     );
   }
 
-  if (books.lenghth === 0 || genres.lenghth === 0) {
+  if (booksLimited.lenghth === 0 || genresLimited.lenghth === 0) {
     return (
       <>
         <h6 className="text-center" style={{ marginTop: "3rem" }}>
@@ -51,8 +51,8 @@ function Home() {
 
   return (<>
 
-{genres?.map((genre) => {
-        const genreBooks = books.filter((book) => book.bookGenre === genre._id);
+{genresLimited?.map((genre) => {
+        const genreBooks = booksLimited.filter((book) => book.bookGenre === genre._id);
 
         const firstTwoBooks = genreBooks.filter((filteredBook, index) => {
           return genre._id === filteredBook.bookGenre && index < 3;
