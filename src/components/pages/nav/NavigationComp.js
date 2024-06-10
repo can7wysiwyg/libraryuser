@@ -83,6 +83,7 @@ AuthComp()
 } </li>
 
 
+
 <div className="collapse navbar-collapse" id="navbarCollapse">
     <div className="navbar-nav ms-auto p-4 p-lg-0">
         <div className="nav-item dropdown">
@@ -99,9 +100,7 @@ AuthComp()
           )) : "THERE WAS A PROBLEM "
         }
 
-                {/* <a href="./issues" className="dropdown-item">ISSUES</a>
-                <a href="./initiatives" className="dropdown-item">INITIATIVES</a>
-                <a href="./influence" className="dropdown-item">MALAWI WOMEN OF INFLUENCE AWARD</a> */}
+                
             </div>
         </div>
     </div>

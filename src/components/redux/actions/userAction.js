@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BOOK_ERROR, DELETE_BOOK, MY_BOOKS } from "./types"
+import { BOOK_ERROR, CHECK_CARD, DELETE_BOOK, MY_BOOKS } from "./types"
 import { ApiUrl } from "../../helpers/ApiUrl"
 import { usertoken } from "../../helpers/UserToken"
 
@@ -190,6 +190,34 @@ export function deleteBookThree(id) {
             
         } catch (error) {
 
+            console.error(error)
+            dispatch({type: BOOK_ERROR})
+            throw error
+            
+        }
+
+
+    }
+}
+
+
+
+export function checkCard(id) {
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.get(`${ApiUrl}/card/show_to_user/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${usertoken}`
+                }
+            })
+
+            const card = response.data.card
+
+            dispatch({type: CHECK_CARD, payload: card})
+            
+        } catch (error) {
             console.error(error)
             dispatch({type: BOOK_ERROR})
             throw error

@@ -1,4 +1,4 @@
-import { BOOK_ERROR, DELETE_BOOK, MY_BOOKS } from "../actions/types";
+import { BOOK_ERROR, CHECK_CARD, DELETE_BOOK, MY_BOOKS } from "../actions/types";
 
 export function userRdcr(state={}, action) {
 
@@ -6,6 +6,9 @@ export function userRdcr(state={}, action) {
 
         case MY_BOOKS:
             return{...state, result: action.payload}
+
+        case CHECK_CARD:
+            return{...state, card: action.payload}    
 
         case DELETE_BOOK:
             return{...state, msg: "success"}    

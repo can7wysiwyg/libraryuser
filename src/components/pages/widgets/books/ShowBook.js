@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { bookByGenre, getBook } from "../../../redux/actions/bookAction"
 import moment from "moment/moment"
-import { addItem } from "../../../helpers/BooksTrolley"
+import BorrowFilter from "../../../helpers/BorrowFilter"
 
 
 
@@ -11,16 +11,7 @@ function ShowBook() {
    const {id} = useParams()
    const book = useSelector((state) => state.booksRdcr.book)
    const dispatch = useDispatch()
-   const [redirect, setRedirect] = useState(false);
-
-
-   const shouldRedirect = (redirect) => {
-    if (redirect) {
-      return (window.location.href = "/borrow_books");
-    }
-  };
-
-
+   
 
 
    useEffect(() => {
@@ -60,20 +51,13 @@ function ShowBook() {
     
    }
 
-   const handleClick = async(event) => {
-    event.preventDefault()
-
-    addItem(book, () => {
-        setRedirect(true);
-      })
-}
+   
 
 
     return(<>
 
 <div className="container" style={{fontFamily: "Times New Roman"}}>
 
-{shouldRedirect(redirect)}
 
 <div className="row justify-content-center" style={{marginTop: "2rem"}}>
           <div className="col-md-8">
@@ -83,9 +67,8 @@ function ShowBook() {
                 <h5 className="card-title">{book.bookTitle}</h5>
                 <p className="card-text">released on {moment(book.bookReleaseDate).format("MMM D YYYY")} </p>
                 <p className="card-text text-primary">  {book.bookAuthor}</p>
-                <h5 className="text-center" onClick={handleClick} style={{cursor: "pointer", color: "blue"}}>  BORROW BOOK  </h5>
-                
-                
+
+                <BorrowFilter filteredBook={book} />
                 
               </div>
             </div>
@@ -161,8 +144,10 @@ const RelatedBooks = ({category}) => {
                                     
                                     </p> 
 
-                                    <p className="text-center"> <a href={`/borrow_book/${filteredBook._id}`} style={{textDecoration: "none"}}> BORROW BOOK </a> </p>
+                                    <BorrowFilter filteredBook={filteredBook} />
+                
 
+                               
                                  </div>
                                                         </div>
                            </div>
