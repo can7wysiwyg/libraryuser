@@ -6,6 +6,7 @@ import ShowBook from "./components/pages/widgets/books/ShowBook";
 import BorrowBooks from "./components/pages/widgets/books/BorrowBooks";
 import UserPanel from "./components/pages/widgets/user/UserPanel";
 import MyReadings from "./components/pages/widgets/user/MyReadings";
+import BooksByGenre from "./components/pages/widgets/books/BooksByGenre";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/borrow_books" element={<BorrowBooks />} />
         <Route path="/user_panel" element={<UserPanel />} />
         <Route path="/my_readings" element={<MyReadings />} />
+        <Route path="/books_by_genre/:id" element={<BooksByGenre />} />
 
       </Routes>
       
