@@ -1,23 +1,16 @@
 import {  useSelector, useDispatch } from "react-redux";
-import moment from "moment/moment";
-import { useEffect, useState} from "react";
+import { useEffect} from "react";
 import { getUser } from "../../../redux/actions/authAction";
-import { MyBooks, deleteBookOne, deleteBookThree, deleteBookTwo } from "../../../redux/actions/userAction";
+import { MyBooks } from "../../../redux/actions/userAction";
 import { getBooks } from "../../../redux/actions/bookAction";
+import DisplayFirstBook from "./display.borrowed.books/DisplayFirstBook"
+import DisplaySecondBook from "./display.borrowed.books/DisplaySecondBook"
+import DisplayThirdBook from "./display.borrowed.books/DisplayThirdBook"
 
 
 
-import {Viewer, Worker } from "@react-pdf-viewer/core"
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'; // Import the plugin
 
 
-
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-
-// the WORKERSRC url  should be changed per api version... 
-
-let WORKERSRC = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
 
 function MyReadings() {
 
@@ -108,229 +101,11 @@ if(result === undefined || result === null || result === "" || !books) {
 }
 
 
-const DisplayFirstBook = ({ myBooks, books }) => {
-    const [items, setItems] = useState({});
-    const [pdfVisible, setPdfVisible] = useState(false);
-    const dispatch = useDispatch()
 
-    // Create an instance of the plugin
-    const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-    useEffect(() => {
-        if (myBooks.bookOne) {
-            const item = books.find((book) => book._id === myBooks.bookOne);
-            setItems(item);
-        }
-    }, [books, myBooks.bookOne]);
-
-
-    
-    const handleButtonClick = () => {
-        setPdfVisible(!pdfVisible); // Toggle the visibility
-    };
-
-    const named = items.bookFile;
-
-
-    const DeleteBookOne = async(e) => {
-        e.preventDefault()
-
-        let id = myBooks._id
-
-        await dispatch(deleteBookOne(id))
-
-    }
-
-    return (
-        <>
-            <div className="row justify-content-center" style={{ marginTop: '2rem' }}>
-                <div className="col-md-8">
-                    <div className="card mb-4">
-                        <img 
-                            src={items.bookImage} 
-                            alt={items.bookTitle} 
-                            style={{ width: '100%', maxHeight: '30vh', objectFit: 'contain' }} 
-                        />
-                        <div className="card-body text-center">
-                            <h5 className="card-title">{items.bookTitle}</h5>
-                            <p className="card-text">Released on {moment(items.bookReleaseDate).format('MMM D YYYY')}</p>
-                            <button onClick={handleButtonClick} className="btn btn-primary">
-                                {pdfVisible ? "Hide PDF" : "View PDF"}  {/* Button text changes based on pdfVisible */}
-                            </button>
-                            {pdfVisible && (
-                                <Worker workerUrl={WORKERSRC}>
-                                    <div style={{ height: '750px' }}>
-                                        <Viewer 
-                                            fileUrl={named}
-                                            plugins={[defaultLayoutPluginInstance]}
-                                        />
-                                    </div>
-                                </Worker>
-                            )}
-                        </div>
-                        <h6 className="card-text text-primary"
-                         style={{ cursor: 'pointer' }} onClick={DeleteBookOne}> 
-                         Not satisified? return book
-                        
-                       </h6>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-};
-
-
-
-const DisplaySecondBook = ({ myBooks, books }) => {
-    const [items, setItems] = useState({});
-    const [pdfVisible, setPdfVisible] = useState(false);
-    const dispatch = useDispatch()
-
-    // Create an instance of the plugin
-    const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-    useEffect(() => {
-        if (myBooks.bookTwo) {
-            const item = books.find((book) => book._id === myBooks.bookTwo);
-            setItems(item);
-        }
-    }, [books, myBooks.bookTwo]);
-
-    const handleButtonClick = () => {
-        setPdfVisible(!pdfVisible); // Toggle the visibility
-    };
-
-    const named = items.bookFile;
-
-
-    const DeleteBookTwo = async(e) => {
-        e.preventDefault()
-
-        let id = myBooks._id
-
-        await dispatch(deleteBookTwo(id))
-
-    }
-
-
-    return (
-        <>
-            <div className="row justify-content-center" style={{ marginTop: '2rem' }}>
-                <div className="col-md-8">
-                    <div className="card mb-4">
-                        <img 
-                            src={items.bookImage} 
-                            alt={items.bookTitle} 
-                            style={{ width: '100%', maxHeight: '30vh', objectFit: 'contain' }} 
-                        />
-                        <div className="card-body text-center">
-                            <h5 className="card-title">{items.bookTitle}</h5>
-                            <p className="card-text">Released on {moment(items.bookReleaseDate).format('MMM D YYYY')}</p>
-                            <button onClick={handleButtonClick} className="btn btn-primary">
-                                {pdfVisible ? "Hide PDF" : "View PDF"}  {/* Button text changes based on pdfVisible */}
-                            </button>
-                            {pdfVisible && (
-                                <Worker workerUrl={WORKERSRC}>
-                                    <div style={{ height: '750px' }}>
-                                        <Viewer 
-                                            fileUrl={named}
-                                            plugins={[defaultLayoutPluginInstance]}
-                                        />
-                                    </div>
-                                </Worker>
-                            )}
-                        </div>
-
-                        <h6 className="card-text text-primary"
-                         style={{ cursor: 'pointer' }} onClick={DeleteBookTwo}> 
-                         Not satisified? return book
-                        
-                       </h6>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-};
 
 
 
   
-const DisplayThirdBook = ({ myBooks, books }) => {
-    const [items, setItems] = useState({});
-    const [pdfVisible, setPdfVisible] = useState(false);
-    const dispatch = useDispatch()
-
-    // Create an instance of the plugin
-    const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-    useEffect(() => {
-        if (myBooks.bookThree) {
-            const item = books.find((book) => book._id === myBooks.bookThree);
-            setItems(item);
-        }
-    }, [books, myBooks.bookThree]);
-
-    const handleButtonClick = () => {
-        setPdfVisible(!pdfVisible); // Toggle the visibility
-    };
-
-    const named = items.bookFile;
-
-
-    const DeleteBookThree = async(e) => {
-        e.preventDefault()
-
-        let id = myBooks._id
-
-        await dispatch(deleteBookThree(id))
-
-    }
-
-
-    return (
-        <>
-            <div className="row justify-content-center" style={{ marginTop: '2rem' }}>
-                <div className="col-md-8">
-                    <div className="card mb-4">
-                        <img 
-                            src={items.bookImage} 
-                            alt={items.bookTitle} 
-                            style={{ width: '100%', maxHeight: '30vh', objectFit: 'contain' }} 
-                        />
-                        <div className="card-body text-center">
-                            <h5 className="card-title">{items.bookTitle}</h5>
-                            <p className="card-text">Released on {moment(items.bookReleaseDate).format('MMM D YYYY')}</p>
-                            <button onClick={handleButtonClick} className="btn btn-primary">
-                                {pdfVisible ? "Hide PDF" : "View PDF"}  {/* Button text changes based on pdfVisible */}
-                            </button>
-                            {pdfVisible && (
-                                <Worker workerUrl={WORKERSRC}>
-                                    <div style={{ height: '750px' }}>
-                                        <Viewer 
-                                            fileUrl={named}
-                                            plugins={[defaultLayoutPluginInstance]}
-                                        />
-                                    </div>
-                                </Worker>
-                            )}
-                        </div>
-                        <h6 className="card-text text-primary"
-                         style={{ cursor: 'pointer' }} onClick={DeleteBookThree}> 
-                         Not satisified? return book
-                        
-                       </h6>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-};
-
-  
-  
- 
 
 
 export default MyReadings

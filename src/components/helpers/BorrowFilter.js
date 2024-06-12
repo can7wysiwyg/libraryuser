@@ -120,6 +120,20 @@ function BorrowFilter({filteredBook}) {
 
 
         }
+
+
+        if(usertoken && items.length >= 3) {
+                
+          return(<>
+          <h5 className="text-center" style={{cursor: "pointer"}}>
+    
+         BORROW LIMIT IS THREE
+    
+          </h5>
+          
+          </>)
+        }
+
         
         
         
