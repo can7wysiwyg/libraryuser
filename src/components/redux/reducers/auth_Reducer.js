@@ -1,4 +1,4 @@
-import { AUTH_ERROR, GET_USER, LOGIN_USER } from "../actions/types";
+import { AUTH_ERROR, FORGOT_PASSWORD, GET_USER, LOGIN_USER, REGISTER_USER } from "../actions/types";
 
 export function authRdcr(state={}, action) {
 
@@ -6,6 +6,12 @@ export function authRdcr(state={}, action) {
 
         case LOGIN_USER:
             return{...state, authenticated: true}
+
+        case REGISTER_USER:
+            return{...state, msg: "success"}  
+            
+        case FORGOT_PASSWORD:
+            return{...state, msg: "success"}    
 
         case GET_USER:
             return{...state, user: action.payload}

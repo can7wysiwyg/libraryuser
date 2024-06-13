@@ -1,4 +1,7 @@
+export const REGISTER_USER = 'REGISTER_USER'
 export const LOGIN_USER = 'LOGIN_USER'
+export const FORGOT_PASSWORD = 'FORGOT_PASSWORD'
+export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const GET_USER = 'GET_USER'
 export const MY_BOOKS = 'MY_BOOKS'
 export const AUTH_ERROR = 'AUTH_ERROR'

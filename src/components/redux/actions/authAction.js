@@ -1,7 +1,39 @@
 import axios from "axios"
-import { AUTH_ERROR, GET_USER, LOGIN_USER } from "./types"
+import { AUTH_ERROR, FORGOT_PASSWORD, GET_USER, LOGIN_USER, REGISTER_USER, RESET_PASSWORD } from "./types"
 import { ApiUrl } from "../../helpers/ApiUrl"
 import { usertoken } from "../../helpers/UserToken"
+
+
+
+
+export function registerUser(data) {
+
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.post(`${ApiUrl}/userroute/register `, data)
+
+            dispatch({type: REGISTER_USER})
+
+            alert(response.data.msg)
+            window.location.href = "/login"
+    
+
+           
+
+            
+        } catch (error) {
+            console.error(error)
+            dispatch({type: AUTH_ERROR})
+            throw error
+
+        }
+
+    }
+}
+
+
 
 export function loginUser(data) {
 
@@ -37,6 +69,81 @@ export function loginUser(data) {
 
     }
 }
+
+
+export function PasswordForgot(data) {
+    
+
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.post(`${ApiUrl}/userroute/forgot_password`, data)
+
+            const accessToken = response.data.accessToken
+
+            dispatch({type: FORGOT_PASSWORD})
+
+            if(response.data.msg) {
+                alert(response.data.msg)
+            } else{
+                 
+                localStorage.setItem('accessToken', accessToken)
+
+          window.location.href = '/reset_password'
+        
+        }
+
+
+
+           
+           
+
+            
+        } catch (error) {
+            console.error(error)
+            dispatch({type: AUTH_ERROR})
+            throw error
+
+        }
+
+    }
+}
+
+
+
+export function PasswordReset(data, accessToken) {
+    
+
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.put(`${ApiUrl}/userroute/reset_password`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+
+            
+            dispatch({type: RESET_PASSWORD})
+
+            alert(response.data.msg)
+    window.location.href = "/login";
+
+            
+            
+        } catch (error) {
+            console.error(error)
+            dispatch({type: AUTH_ERROR})
+            throw error
+
+        }
+
+    }
+}
+
+
 
 
 export function getUser() {
