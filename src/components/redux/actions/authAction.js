@@ -129,6 +129,7 @@ export function PasswordReset(data, accessToken) {
             dispatch({type: RESET_PASSWORD})
 
             alert(response.data.msg)
+            localStorage.removeItem('accessToken')
     window.location.href = "/login";
 
             

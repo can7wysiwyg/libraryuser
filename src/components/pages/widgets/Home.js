@@ -32,9 +32,9 @@ function Home() {
   ) {
     return (
       <>
-        <h6 className="text-center" style={{ marginTop: "3rem" }}>
-          data is loading
-        </h6>
+        <div className="loader" style={{ marginTop: "3rem" }}>
+        
+        </div>
       </>
     );
   }

@@ -55,9 +55,9 @@ function BooksByGenre() {
 
     if (!genreBooks) {
         return (
-            <h5 className="text-center" style={{ marginTop: "3rem" }}>
-                Data is loading
-            </h5>
+            <div className="loader" style={{ marginTop: "3rem" }}>
+                
+            </div>
         );
     }
 
