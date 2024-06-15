@@ -106,7 +106,10 @@ function BorrowFilter({filteredBook}) {
             <h5 className="text-danger" style={{cursor: "pointer"}} onClick={alezz}> BORROW BOOK</h5>
             
             </>)
-        }   if( card !== undefined || card !== null) {
+         } 
+           if( card) {
+
+          
 
             return(<>
                 <h5 className="text-center">
@@ -122,7 +125,7 @@ function BorrowFilter({filteredBook}) {
         }
 
 
-        if(usertoken && items.length >= 3) {
+        if(items.length >= 3) {
                 
           return(<>
           <h5 className="text-center" style={{cursor: "pointer"}}>
