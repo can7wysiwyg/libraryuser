@@ -104,3 +104,12 @@ code {
 @keyframes l13-1 { 
   100% { transform:translate(0.5px)} 
 }
+
+.dropdown {
+
+  color: black!important;
+}
+
+.here-color {
+  color: black!important;
+}

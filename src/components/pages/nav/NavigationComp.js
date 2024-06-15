@@ -55,70 +55,46 @@ function NavigationComp() {
   }
 
     return(<>
+            <nav className="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
+            <div className="container">
+                <a className="navbar-brand" href="/">
+                    VirtualLibrary<span></span>
+                </a>
 
-<nav className="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
-      <div className="container">
-        <a className="navbar-brand" href="/">
-          VirtualLibrary<span></span>
-        </a>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
 
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarsFurni">
-          <ul className="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li className="nav-item active">
-              <a className="nav-link" href="/">HOME</a>
-            </li>
-
-            <li> { DashboardComp() }</li>
-
-              
-            <li>
-            {
-
-AuthComp()
-
-} </li>
-
-
-
-<div className="collapse navbar-collapse" id="navbarCollapse">
-    <div className="navbar-nav ms-auto p-4 p-lg-0">
-        <div className="nav-item dropdown">
-            <h5 className="nav-link dropdown-toggle" data-bs-toggle="dropdown">MORE BOOKS</h5>
-            <div className="dropdown-menu m-0">
-        
-        {
-          Array.isArray(genres)  ? genres?.map((genre) => (
-
-            <a key={genre._id} href={`/books_by_genre/${genre._id}`} className="dropdown-item">{genre.genreName}</a>
-
-
-
-          )) : "THERE WAS A PROBLEM "
-        }
-
-                
+                <div className="collapse navbar-collapse" id="navbarsFurni">
+                    <ul className="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                        <li className="nav-item active">
+                            <a className="nav-link" href="/">HOME</a>
+                        </li>
+                        <li className="nav-item">
+                            {DashboardComp()}
+                        </li>
+                        <li className="nav-item">
+                            {AuthComp()}
+                        </li>
+                        <li className="nav-item dropdown ">
+                            <p className="nav-link dropdown-toggle"  id="moreBooksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                MORE BOOKS
+                            </p>
+                            <ul className="dropdown-menu  here-color" aria-labelledby="moreBooksDropdown">
+                                {Array.isArray(genres) ? genres.map((genre) => (
+                                    <li className="here-color" key={genre._id}>
+                                        <a className="dropdown-item here-color" href={`/books_by_genre/${genre._id}`}>{genre.genreName}</a>
+                                    </li>
+                                )) : <li>THERE WAS A PROBLEM</li>}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+        </nav>
 
-            
-            
-            
-          </ul>
 
-        </div>
-      </div>
-    </nav>
-     
 
-    
-
-    
     
     </>)
 }
