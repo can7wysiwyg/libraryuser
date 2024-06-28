@@ -1,13 +1,17 @@
 import moment from "moment/moment";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {Viewer, Worker } from "@react-pdf-viewer/core"
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'; // Import the plugin
 import { deleteBookThree } from "../../../../redux/actions/userAction";
+import { Worker, Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { toolbarPlugin, ToolbarSlot } from '@react-pdf-viewer/toolbar';
+import '@react-pdf-viewer/toolbar/lib/styles/index.css';
+import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
+import '@react-pdf-viewer/full-screen/lib/styles/index.css';
+
 
 // the WORKERSRC url  should be changed per api version... 
+
 
 
 const DisplayThirdBook = ({ myBooks, books }) => {
@@ -16,25 +20,7 @@ const DisplayThirdBook = ({ myBooks, books }) => {
     const dispatch = useDispatch()
 
 
-    const transformToolbarSlot = (slot) => [
-        slot.ZoomIn,
-        slot.ZoomInMenuItem,
-        slot.ZoomOut,
-        slot.ZoomOutMenuItem,
-        // Add other toolbar slots as needed
-    ];
-
-    // Create an instance of the plugin with the transformed toolbar
     
-    const defaultLayoutPluginInstance = defaultLayoutPlugin({
-        renderToolbar: (Toolbar) => (
-            <Toolbar>
-                {(slots) => transformToolbarSlot(slots)}
-            </Toolbar>
-        ),
-    });
-    
-
     
     useEffect(() => {
         if (myBooks.bookThree) {
@@ -48,6 +34,11 @@ const DisplayThirdBook = ({ myBooks, books }) => {
     };
 
     const named = items.bookFile;
+    const toolbarPluginInstance = toolbarPlugin();
+    const { Toolbar } = toolbarPluginInstance;
+    const fullScreenPluginInstance = fullScreenPlugin();
+    const { EnterFullScreen, exitFullScreen } = fullScreenPluginInstance;
+  
 
 
     const DeleteBookThree = async(e) => {
@@ -76,17 +67,38 @@ const DisplayThirdBook = ({ myBooks, books }) => {
                             <button onClick={handleButtonClick} className="btn btn-primary">
                                 {pdfVisible ? "Hide PDF" : "View PDF"}  {/* Button text changes based on pdfVisible */}
                             </button>
-                            {pdfVisible && (
-                                <Worker workerUrl= "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
->
-                                    <div style={{ height: '750px' }}>
-                                        <Viewer 
-                                            fileUrl={named}
-                                            plugins={[defaultLayoutPluginInstance]}
-                                        />
-                                    </div>
-                                </Worker>
-                            )}
+
+                            {pdfVisible && named && (
+                <div style={{ height: '750px' }}>
+                  <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
+                    <Toolbar>
+                      {(props) => {
+                        const {
+                          CurrentPageInput,
+                          GoToNextPage,
+                          GoToPreviousPage,
+                          NumberOfPages,
+                          EnterFullScreen,
+                        } = props;
+                        return (
+                          <div style={{ alignItems: 'center', display: 'flex' }}>
+                            <GoToPreviousPage />
+                            <CurrentPageInput /> / <NumberOfPages />
+                            <GoToNextPage />
+                            <EnterFullScreen />
+                          </div>
+                        );
+                      }}
+                    </Toolbar>
+                    <Viewer
+                      fileUrl={named}
+                      plugins={[toolbarPluginInstance, fullScreenPluginInstance]}
+                      defaultScale={SpecialZoomLevel.PageWidth}
+                    />
+                  </Worker>
+                </div>
+              )}
+                            
                         </div>
                         <h6 className="card-text text-primary"
                          style={{ cursor: 'pointer' }} onClick={DeleteBookThree}> 
