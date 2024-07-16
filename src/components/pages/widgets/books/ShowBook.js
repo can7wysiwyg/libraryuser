@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { bookByGenre, getBook } from "../../../redux/actions/bookAction"
+import { bookBySubgenre, getBook } from "../../../redux/actions/bookAction"
 import moment from "moment/moment"
 import BorrowFilter from "../../../helpers/BorrowFilter"
 
@@ -68,6 +68,8 @@ function ShowBook() {
                 <p className="card-text">released on {moment(book.bookReleaseDate).format("MMM D YYYY")} </p>
                 <p className="card-text text-primary">  {book.bookAuthor}</p>
 
+                <p className="card-text text-primary">{book.bookDescription}</p>
+
                 <BorrowFilter filteredBook={book} />
                 
               </div>
@@ -78,7 +80,7 @@ function ShowBook() {
 <div>
 <h1 style={{fontFamily: "Times New Roman"}}>Related Books</h1>
 
-<RelatedBooks category={book.bookGenre} />
+<RelatedBooks category={book.bookSubGenre} />
 
 </div>
 
@@ -93,7 +95,7 @@ function ShowBook() {
 
 const RelatedBooks = ({category}) => {
 
-    const genreBooks = useSelector((state) =>state.booksRdcr.genreBooks)
+    const subGenreBooks = useSelector((state) =>state.booksRdcr.subGenreBooks)
     const dispatch = useDispatch()
 
 
@@ -104,7 +106,7 @@ const RelatedBooks = ({category}) => {
  
      const fetchByGenre = async() => {
 
-        await dispatch(bookByGenre(category))
+        await dispatch(bookBySubgenre(category))
  
          
      }
@@ -115,7 +117,7 @@ const RelatedBooks = ({category}) => {
     }, [dispatch, category])
 
 
-    if(!genreBooks) {
+    if(!subGenreBooks) {
       return(<>
       <h6 className="text-center" style={{marginTop: "3rem"}}>not available at the moment</h6>
       
@@ -123,7 +125,7 @@ const RelatedBooks = ({category}) => {
     }
 
 
-    let relatedTitles = genreBooks?.slice(-3)
+    let relatedTitles = subGenreBooks?.slice(-3)
 
 
  
@@ -144,6 +146,7 @@ const RelatedBooks = ({category}) => {
                                     
                                     </p> 
 
+                                    
                                     <BorrowFilter filteredBook={filteredBook} />
                 
 

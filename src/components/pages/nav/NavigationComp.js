@@ -81,11 +81,16 @@ function NavigationComp() {
                                 MORE BOOKS
                             </p>
                             <ul className="dropdown-menu  here-color" aria-labelledby="moreBooksDropdown">
-                                {Array.isArray(genres) ? genres.map((genre) => (
-                                    <li className="here-color" key={genre._id}>
-                                        <a className="dropdown-item here-color" href={`/books_by_genre/${genre._id}`}>{genre.genreName}</a>
-                                    </li>
-                                )) : <li>THERE WAS A PROBLEM</li>}
+                            {Array.isArray(genres) ? genres.map((genre) => (
+    genre.subgenres.length > 0 && genre.subgenres.map((subgenre, index) => (
+        <li className="here-color" key={`${genre._id}-${index}`}>
+            <a className="dropdown-item here-color" href={`/books_by_genre/${subgenre}`}>
+                {subgenre}
+            </a>
+        </li>
+    ))
+)) : <li>THERE WAS A PROBLEM</li>}
+                                
                             </ul>
                         </li>
                     </ul>

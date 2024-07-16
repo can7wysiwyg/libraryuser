@@ -52,7 +52,7 @@ function Home() {
     return (
       <div key={genre._id} style={{ marginTop: "2rem", fontFamily: "Times New Roman" }}>
         <h6>
-          <a href={`/books_by_genre/${genre._id}`} style={{ textDecoration: "none" }}>
+          <a href={`/books_by_genre/${genre.genreName}`} style={{ textDecoration: "none" }}>
             {genre.genreName} Books
           </a>
         </h6>

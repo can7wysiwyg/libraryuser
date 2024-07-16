@@ -1,4 +1,4 @@
-import { BOOK_ERROR, BOOK_GENRE, BORROW_BOOKS, GET_BOOK, GET_BOOKS, LIMITED_BOOKS } from "../actions/types";
+import { BOOK_ERROR, BOOK_GENRE, BORROW_BOOKS, GET_BOOK, GET_BOOKS, GET_SUBGENRE, LIMITED_BOOKS } from "../actions/types";
 
 export function booksRdcr(state={}, action) {
 
@@ -6,6 +6,9 @@ export function booksRdcr(state={}, action) {
 
         case GET_BOOKS:
             return{...state, books: action.payload}
+
+        case GET_SUBGENRE:
+            return{...state, subGenreBooks: action.payload}    
 
         case LIMITED_BOOKS:
             return{...state, booksLimited: action.payload}

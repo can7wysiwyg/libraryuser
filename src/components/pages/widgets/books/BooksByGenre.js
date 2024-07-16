@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { bookByGenre } from "../../../redux/actions/bookAction";
+import { bookBySubgenre } from "../../../redux/actions/bookAction";
 import { Container, Button, Row, Col } from "react-bootstrap";
 
 function BooksByGenre() {
     const { id } = useParams();
-    const genreBooks = useSelector((state) => state.booksRdcr.genreBooks);
+    const subGenreBooks = useSelector((state) => state.booksRdcr.subGenreBooks);
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
     const booksPerPage = 9;
@@ -15,7 +15,7 @@ function BooksByGenre() {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                await dispatch(bookByGenre(id));
+                await dispatch(bookBySubgenre(id));
             } catch (error) {
                 console.error("There was a problem");
             }
@@ -34,11 +34,11 @@ function BooksByGenre() {
 
     const indexOfLastBook = currentPage * booksPerPage;
     const indexOfFirstBook = indexOfLastBook - booksPerPage;
-    const currentBooks = genreBooks?.slice(indexOfFirstBook, indexOfLastBook);
+    const currentBooks = subGenreBooks?.slice(indexOfFirstBook, indexOfLastBook);
 
     const renderPageNumbers = () => {
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(genreBooks.length / booksPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(subGenreBooks.length / booksPerPage); i++) {
             pageNumbers.push(
                 <Button
                     key={i}
@@ -53,7 +53,7 @@ function BooksByGenre() {
         return pageNumbers;
     };
 
-    if (!genreBooks) {
+    if (!subGenreBooks) {
         return (
             <div className="loader" style={{ marginTop: "3rem" }}>
                 
@@ -61,13 +61,15 @@ function BooksByGenre() {
         );
     }
 
-    if (genreBooks.length === 0) {
+    if (subGenreBooks.length === 0) {
         return (
             <h5 className="text-center" style={{ marginTop: "3rem" }}>
                 There are no books of this genre at the moment
             </h5>
         );
     }
+
+    console.log(subGenreBooks);
 
     return (
         <Container>

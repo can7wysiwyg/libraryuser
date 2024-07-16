@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BOOK_ERROR, BOOK_GENRE, BORROW_BOOKS, GET_BOOK, GET_BOOKS, LIMITED_BOOKS } from "./types"
+import { BOOK_ERROR, BOOK_GENRE, BORROW_BOOKS, GET_BOOK, GET_BOOKS, GET_SUBGENRE, LIMITED_BOOKS } from "./types"
 import { ApiUrl } from "../../helpers/ApiUrl"
 import { usertoken } from "../../helpers/UserToken"
 
@@ -90,6 +90,29 @@ export function bookByGenre(category) {
         }
     }
 }
+
+
+export function bookBySubgenre(subgenre) {
+
+    return async function(dispatch) {
+
+        try {
+
+            const response = await axios.get(`${ApiUrl}/books/show_according_to_subgenre/subgnr?subgenre=${subgenre}`)
+
+            const subGenreBooks = response.data.books
+
+
+            dispatch({type: GET_SUBGENRE , payload: subGenreBooks})
+            
+        } catch (error) {
+            console.error(error)
+            dispatch({type: BOOK_ERROR})
+            throw error
+        }
+    }
+}
+
 
 
 
