@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBooksLimited } from "../../redux/actions/bookAction";
-import { getGenresLimited } from "../../redux/actions/genreAction";
+import { getBooks } from "../../redux/actions/bookAction";
+import { getGenres } from "../../redux/actions/genreAction";
 
 function Home() {
-  const booksLimited = useSelector((state) => state.booksRdcr.booksLimited);
-  const genresLimited = useSelector((state) => state.genreRdcr.genresLimited);
+  const books = useSelector((state) => state.booksRdcr.books);
+  const genres = useSelector((state) => state.genreRdcr.genres);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        await dispatch(getBooksLimited());
-
-        await dispatch(getGenresLimited());
+        await dispatch(getBooks());
+        await dispatch(getGenres());
       } catch (error) {
         console.error("there was a problem");
       }
@@ -22,94 +22,93 @@ function Home() {
     fetchItems();
   }, [dispatch]);
 
-  if (
-    !booksLimited ||
-    booksLimited === undefined ||
-    booksLimited === null ||
-    !genresLimited ||
-    genresLimited === undefined ||
-    genresLimited === null
-  ) {
+  if (!books || !genres) {
     return (
       <>
-        <div className="loader" style={{ marginTop: "3rem" }}>
-        
-        </div>
+        <div className="loader" style={{ marginTop: "3rem" }}></div>
       </>
     );
   }
 
-  if (booksLimited.lenghth === 0 || genresLimited.lenghth === 0) {
+  if (books.length === 0 || genres.length === 0) {
     return (
       <>
         <h6 className="text-center" style={{ marginTop: "3rem" }}>
-          there are no books at the moment
+          There are no books at the moment
         </h6>
       </>
     );
   }
 
-  return (<>
+  const fictionGenres = genres.find(genre => genre.genreName.toLowerCase() === 'fiction');
+  const nonFictionGenres = genres.find(genre => genre.genreName.toLowerCase() === 'non-fiction');
 
-{genresLimited?.map((genre) => {
-        const genreBooks = booksLimited.filter((book) => book.bookGenre === genre._id);
+  const renderGenreBooks = (genre, books) => {
+    const firstThreeBooks = books.filter((book, index) => index < 3);
 
-        const firstTwoBooks = genreBooks.filter((filteredBook, index) => {
-          return genre._id === filteredBook.bookGenre && index < 3;
-        });
 
-        return (
-          <div key={genre._id} style={{ marginTop: "2rem", fontFamily: "Times New Roman" }}>
-            <h6>
-              {" "}
-              <a
-                href={`/books_by_genre/${genre._id}`}
-                style={{ textDecoration: "none" }}
-              >
-                {genre.genreName} Books
-              </a>{" "}
-            </h6>
-            <div className="row">
-              {firstTwoBooks.map((filteredBook) => (
-                <div key={filteredBook._id} className="col-md-4 mb-4">
-                  <div className="card cont h-100 shadow-sm">
-                    <img
-                      src={filteredBook.bookImage}
-                      alt={filteredBook.bookTitle}
-                      className="card-img-top"
-                      style={{
-                        width: "100%",
-                        maxHeight: "30vh",
-                        objectFit: "contain",
-                      }}
-                    />
-                    <div className="card-body">
-                      <p>
-                        {" "}
-                        <a
-                          href={`/single_book/${filteredBook._id}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          {filteredBook.bookTitle}
-                        </a>
-                      </p>
-                      <p>
-                        {filteredBook.bookAuthor}
-                      </p>
-                     
-                     
-                    </div>
-                  </div>
+
+    
+    return (
+      <div key={genre._id} style={{ marginTop: "2rem", fontFamily: "Times New Roman" }}>
+        <h6>
+          <a href={`/books_by_genre/${genre._id}`} style={{ textDecoration: "none" }}>
+            {genre.genreName} Books
+          </a>
+        </h6>
+        <div className="row">
+          {firstThreeBooks.map((book) => (
+            <div key={book._id} className="col-md-4 mb-4">
+              <div className="card cont h-100 shadow-sm">
+                <img
+                  src={book.bookImage}
+                  alt={book.bookTitle}
+                  className="card-img-top"
+                  style={{
+                    width: "100%",
+                    maxHeight: "30vh",
+                    objectFit: "contain",
+                  }}
+                />
+                <div className="card-body">
+                  <p>
+                    <a href={`/single_book/${book._id}`} style={{ textDecoration: "none" }}>
+                      {book.bookTitle}
+                    </a>
+                  </p>
+                  <p>{book.bookAuthor}</p>
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          ))}
+        </div>
+      </div>
+    );
+  };
 
-  
-  
-  </>);
+  return (
+    <>
+      {fictionGenres && fictionGenres.subgenres.length > 0 && (
+        <div>
+          <h3>Fiction</h3>
+          {fictionGenres.subgenres.map(subgenre => {
+            const subgenreBooks = books.filter(book => book.bookSubGenre === subgenre);
+            return renderGenreBooks({ _id: fictionGenres._id, genreName: subgenre }, subgenreBooks);
+          })}
+        </div>
+      )}
+
+      {nonFictionGenres && nonFictionGenres.subgenres.length > 0 && (
+        <div>
+          <h3>Non-Fiction</h3>
+          {nonFictionGenres.subgenres.map(subgenre => {
+            const subgenreBooks = books.filter(book => book.bookSubGenre === subgenre);
+            return renderGenreBooks({ _id: nonFictionGenres._id, genreName: subgenre }, subgenreBooks);
+          })}
+        </div>
+      )}
+    </>
+  );
 }
 
 export default Home;
